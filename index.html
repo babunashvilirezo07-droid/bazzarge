@@ -2,597 +2,155 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diasgifts.ge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>lovedia.ge</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@500&display=swap">
 <style>
-:root{--ink:#1d2a2e;--chalk:#faf6ec;--saffron:#f2a61b;--teal:#0f6b68;--brick:#c4472b;--line:#e3dcc8;--card:#fffdf7}
+:root{
+  --bg1:#ffe3ec;--bg2:#ffc2d6;--ink:#5a1230;--heart1:#ff6b9a;--heart2:#d6246e;
+  --btn:#d6246e;--btnink:#fff;--off:rgba(90,18,48,.12);--offink:rgba(90,18,48,.4);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg1:#2a0a1c;--bg2:#4a1030;--ink:#ffe3ec;--heart1:#ff7aa6;--heart2:#e0306f;
+    --btn:#ff5c93;--btnink:#2a0a1c;--off:rgba(255,227,236,.1);--offink:rgba(255,227,236,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg1:#2a0a1c;--bg2:#4a1030;--ink:#ffe3ec;--heart1:#ff7aa6;--heart2:#e0306f;
+  --btn:#ff5c93;--btnink:#2a0a1c;--off:rgba(255,227,236,.1);--offink:rgba(255,227,236,.35);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 *{box-sizing:border-box}
-body{margin:0;background:var(--chalk);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif}
-header{background:repeating-linear-gradient(90deg,var(--teal) 0 28px,var(--chalk) 28px 56px);padding:0 0 18px}
-.bar{background:var(--ink);color:var(--chalk);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.bar{flex-wrap:wrap}
-.bar h1{margin:0;font-size:1.35rem;letter-spacing:.5px}
-.bar h1 span{color:var(--saffron)}
-.bar .r{display:flex;gap:8px;align-items:center}
-.bar .r button{padding:8px 12px;font-size:.92rem;white-space:nowrap}
-button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--saffron);color:var(--ink);font-weight:700}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-main{max-width:900px;margin:0 auto;padding:16px}
-.search{display:flex;gap:8px;margin-top:-4px}
-input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
-.chip{white-space:nowrap;background:#fff;border:1.5px solid var(--line);font-weight:600}
-.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
-.item h3{margin:0;font-size:1.1rem}
-.price{color:var(--brick);font-weight:800;font-size:1.15rem}
-.meta{color:#5d6a6c;font-size:.88rem}
-.acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
-.acts a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-weight:700;color:#fff;background:var(--teal)}
-.acts a.wa{background:#1e8e4f}
-.del{background:var(--brick);color:#fff;margin-top:6px}
-.empty{text-align:center;padding:40px 10px;color:#5d6a6c}
-footer{text-align:center;padding:24px 16px 40px}
-dialog{border:0;border-radius:16px;padding:18px;width:min(460px,92vw);background:var(--chalk);color:var(--ink)}
-dialog::backdrop{background:rgba(0,0,0,.5)}
-form{display:grid;gap:10px}
-label{font-weight:600;font-size:.92rem;display:grid;gap:4px}
-.row{display:flex;gap:8px;justify-content:flex-end}
-.ghost{background:transparent;border:1.5px solid var(--line);color:inherit}
-.bar .ghost{border-color:#4a5b60}
-#msg{color:var(--brick);font-size:.9rem;min-height:1.2em}
+body{
+  margin:0;height:100%;overflow:hidden;color:var(--ink);
+  font-family:"Playfair Display",Georgia,"Times New Roman",serif;
+  background:radial-gradient(circle at 50% 35%,var(--bg2),var(--bg1) 70%);
+  background-color:var(--bg1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:16px;
+}
+.brand{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);left:0;right:0;
+  font-size:14px;letter-spacing:.3em;opacity:.55;text-transform:lowercase}
+h1{font-size:clamp(22px,6vw,34px);font-weight:600;margin:0 0 6px;line-height:1.25;max-width:20ch;transition:opacity .4s}
+.stage{position:relative;width:100%;height:min(46vh,340px);display:flex;align-items:center;justify-content:center}
+#heart{
+  width:120px;height:110px;cursor:default;
+  transform:scale(var(--s,1));transition:transform .55s cubic-bezier(.34,1.56,.64,1);
+  filter:drop-shadow(0 10px 24px rgba(214,36,110,.45));
+  animation:beat 1.4s ease-in-out infinite;
+}
+@keyframes beat{0%,100%{rotate:0deg}50%{rotate:0deg;scale:1.06}}
+#heart.pop{animation:none}
+.btns{display:flex;gap:16px;z-index:3}
+button{
+  font:inherit;font-size:20px;font-weight:600;border:0;border-radius:999px;
+  padding:14px 38px;min-width:120px;
+}
+#yes{background:var(--btn);color:var(--btnink);cursor:pointer;box-shadow:0 8px 22px rgba(214,36,110,.4);
+  transition:transform .15s}
+#yes:active{transform:scale(.94)}
+#no{background:var(--off);color:var(--offink);cursor:not-allowed;pointer-events:none}
+#final{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 1s .6s;z-index:4;padding:24px}
+#final.show{opacity:1}
+#final p{font-family:"Great Vibes","Snell Roundhand","Brush Script MT",cursive;font-size:clamp(46px,14vw,84px);font-weight:400;margin:0;line-height:1.1;max-width:11ch;
+  text-shadow:0 4px 28px rgba(214,36,110,.55)}
+#final small{font-family:"Dancing Script","Brush Script MT",cursive;font-size:clamp(20px,5.6vw,28px);margin-top:22px;opacity:0;max-width:20ch;line-height:1.35}
+#final.show small{animation:rise 1.4s 1.8s both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:.95;transform:none}}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.bg i{position:absolute;bottom:-40px;font-style:normal;color:var(--heart1);opacity:0;animation:floatup linear infinite}
+@keyframes floatup{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.35}100%{transform:translateY(-115vh) rotate(40deg);opacity:0}}
+canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.hide{opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
-<header>
-  <div class="bar">
-    <h1 id="logo"></h1>
-    <div class="r"><button class="ghost" id="langBtn" type="button"></button><button id="addBtn" data-t="sell"></button></div>
-  </div>
-</header>
-<main>
-  <div class="search"><input id="q" type="search" data-tp="search" aria-label="Search"></div>
-  <div class="chips" id="chips"></div>
-  <div id="grid" aria-live="polite"></div>
-</main>
-<footer><button class="ghost" id="modBtn" type="button"></button></footer>
+<div class="bg" id="bg"></div>
+<div class="brand">lovedia.ge</div>
+<h1 id="q">Will you spend eternity with me?</h1>
+<div class="stage">
+  <svg id="heart" viewBox="0 0 24 22" aria-hidden="true">
+    <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="var(--heart1)"/><stop offset="1" stop-color="var(--heart2)"/>
+    </linearGradient></defs>
+    <path fill="url(#g)" d="M12 21.2 3.2 12.6C.4 9.9.4 5.6 3 3.2c2.4-2.2 6-1.8 7.9.7L12 5.3l1.1-1.4c1.9-2.5 5.5-2.9 7.9-.7 2.6 2.4 2.6 6.7-.2 9.4z"/>
+  </svg>
+</div>
+<div class="btns" id="btns">
+  <button id="yes">Yes</button>
+  <button id="no" disabled aria-disabled="true">No</button>
+</div>
+<div id="final"><p>I love you my princess Diana</p><small>I will make you my wife soon baby ♥️</small></div>
+<canvas id="fx"></canvas>
+<script>
+(function(){
+  var heart=document.getElementById('heart'),yes=document.getElementById('yes'),
+      btns=document.getElementById('btns'),q=document.getElementById('q'),
+      fin=document.getElementById('final'),cv=document.getElementById('fx'),
+      ctx=cv.getContext('2d'),clicks=0,scales=[1,1.45,1.9,2.35,2.8],parts=[],running=false,loop=false;
+  var cols=['#ff4d88','#ffd166','#fff','#ff9ebb','#c77dff','#7ae7ff','#ff6b6b'];
+  function size(){var d=window.devicePixelRatio||1;cv.width=innerWidth*d;cv.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0)}
+  addEventListener('resize',size);size();
 
-<dialog id="dlg">
-  <form id="f">
-    <h2 style="margin:0" data-t="add"></h2>
-    <label><span data-t="what"></span><input name="title" required maxlength="80"></label>
-    <label><span data-t="price"></span><input name="price" required maxlength="30"></label>
-    <label><span data-t="cat"></span><select name="category" required></select></label>
-    <label><span data-t="city"></span><input name="city" maxlength="60"></label>
-    <label><span data-t="phone"></span><input name="phone" required inputmode="tel" maxlength="20" placeholder="+995..."></label>
-    <label><span data-t="desc"></span><textarea name="desc" rows="3" maxlength="400"></textarea></label>
-    <div id="msg"></div>
-    <div class="row"><button type="button" class="ghost" id="cancel" data-t="cancel"></button><button type="submit" data-t="publish"></button></div>
-  </form>
-</dialog>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const NAME_MAIN = "Diasgifts", NAME_END = ".ge";   // change these two to rename the site
-
-const app = initializeApp({
-  apiKey: "AIzaSyDbgTHe5GN_i-8z_Wr8l4jakvm5JGsH0Bk",
-  authDomain: "bazzarge.firebaseapp.com",
-  projectId: "bazzarge",
-  storageBucket: "bazzarge.firebasestorage.app",
-  messagingSenderId: "503925712812",
-  appId: "1:503925712812:web:e8e87242b745082dc8bc09"
-});
-const db = getFirestore(app), auth = getAuth(app);
-
-const T = {
-  en:{sell:"+ Sell something",search:"Search items, shops, places",add:"Add a listing",what:"What are you selling?",price:"Price",cat:"Category",city:"City or market",phone:"Phone (with country code)",desc:"Details",cancel:"Cancel",publish:"Publish",call:"Call",empty:"Nothing here yet. Be the first to sell something.",fail:"Could not publish. Please try again.",load:"Could not load listings. Check your connection.",del:"Delete",confirm:"Delete this listing?",noperm:"Only the moderator can delete listings.",login:"Moderator login",logout:"Log out",lang:"ქართული",
-    All:"All",Food:"Food",Clothes:"Clothes",Electronics:"Electronics",Home:"Home",Vehicles:"Vehicles",Services:"Services",Other:"Other"},
-  ka:{sell:"+ გაყიდვა",search:"ძებნა: ნივთები, მაღაზიები, ადგილები",add:"განცხადების დამატება",what:"რას ყიდით?",price:"ფასი",cat:"კატეგორია",city:"ქალაქი ან ბაზარი",phone:"ტელეფონი (ქვეყნის კოდით)",desc:"დეტალები",cancel:"გაუქმება",publish:"გამოქვეყნება",call:"დარეკვა",empty:"ჯერ არაფერია. იყავით პირველი გამყიდველი.",fail:"გამოქვეყნება ვერ მოხერხდა. სცადეთ თავიდან.",load:"განცხადებები ვერ ჩაიტვირთა. შეამოწმეთ ინტერნეტი.",del:"წაშლა",confirm:"წაშალოთ ეს განცხადება?",noperm:"განცხადების წაშლა მხოლოდ მოდერატორს შეუძლია.",login:"მოდერატორის შესვლა",logout:"გასვლა",lang:"English",
-    All:"ყველა",Food:"საკვები",Clothes:"ტანსაცმელი",Electronics:"ელექტრონიკა",Home:"სახლი",Vehicles:"ავტომობილები",Services:"მომსახურება",Other:"სხვა"}
-};
-const CATS = ["Food","Clothes","Electronics","Home","Vehicles","Services","Other"];
-let items = [], cat = "All", term = "", user = null, loadErr = false;
-let lang = "en";
-try { lang = localStorage.getItem("lang") === "ka" ? "ka" : "en"; } catch (e) {}
-const $ = s => document.querySelector(s);
-const tr = k => T[lang][k];
-
-function el(tag, cls, text){
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
-function renderChips(){
-  const box = $("#chips"); box.textContent = "";
-  ["All", ...CATS].forEach(c => {
-    const b = el("button", "chip" + (c === cat ? " on" : ""), tr(c));
-    b.onclick = () => { cat = c; renderChips(); render(); };
-    box.appendChild(b);
-  });
-}
-function render(){
-  const g = $("#grid"); g.textContent = "";
-  if (loadErr){ g.appendChild(el("div","empty",tr("load"))); return; }
-  const t = term.toLowerCase();
-  const list = items.filter(i =>
-    (cat === "All" || i.category === cat) &&
-    (!t || [i.title, i.desc, i.city].join(" ").toLowerCase().includes(t)));
-  if (!list.length){ g.appendChild(el("div","empty",tr("empty"))); return; }
-  list.forEach(i => {
-    const c = el("article","item");
-    c.appendChild(el("h3","",i.title));
-    c.appendChild(el("div","price",i.price));
-    c.appendChild(el("div","meta",[tr(i.category) || i.category, i.city].filter(Boolean).join(" • ")));
-    if (i.desc) c.appendChild(el("div","",i.desc));
-    const digits = (i.phone || "").replace(/\D/g,"");
-    const acts = el("div","acts");
-    const call = el("a","",tr("call")); call.href = "tel:+" + digits;
-    const wa = el("a","wa","WhatsApp"); wa.href = "https://wa.me/" + digits; wa.target = "_blank"; wa.rel = "noopener";
-    acts.append(call, wa); c.appendChild(acts);
-    if (user){
-      const d = el("button","del",tr("del"));
-      d.onclick = async () => {
-        if (!confirm(tr("confirm"))) return;
-        try { await deleteDoc(doc(db,"listings",i.id)); }
-        catch (err) { alert(tr("noperm")); console.error(err); }
-      };
-      c.appendChild(d);
+  var A=null;
+  function ac(){try{if(!A)A=new(window.AudioContext||window.webkitAudioContext)();if(A.state==='suspended')A.resume();return A}catch(e){return null}}
+  function tone(f0,f1,d,v,type){var a=ac();if(!a)return;var t=a.currentTime,o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(f1,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.02)}
+  function hiss(d,v,f,type){var a=ac();if(!a)return;var n=Math.floor(a.sampleRate*d),b=a.createBuffer(1,n,a.sampleRate),k=b.getChannelData(0),t=a.currentTime;for(var i=0;i<n;i++)k[i]=Math.random()*2-1;var s=a.createBufferSource(),fl=a.createBiquadFilter(),g=a.createGain();s.buffer=b;fl.type=type;fl.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);s.connect(fl);fl.connect(g);g.connect(a.destination);s.start(t)}
+  function pop(i){tone(520+i*110,130,.14,.5);hiss(.05,.25,2500,'highpass')}
+  function boom(){tone(160,30,.7,.9);hiss(.6,.5,900,'lowpass');tone(900,300,.2,.3,'triangle')}
+  function crackle(){for(var i=0;i<6;i++)setTimeout(function(){hiss(.06,.18,3500+Math.random()*3000,'highpass')},Math.random()*500)}
+  var bg=document.getElementById('bg');
+  for(var h=0;h<14;h++){var e=document.createElement('i');e.textContent='♥';e.style.left=Math.random()*100+'%';e.style.fontSize=(12+Math.random()*22)+'px';e.style.animationDuration=(9+Math.random()*10)+'s';e.style.animationDelay=(-Math.random()*14)+'s';bg.appendChild(e)}
+  function burst(x,y,n){
+    var c=cols[Math.floor(Math.random()*cols.length)];
+    for(var i=0;i<n;i++){
+      var a=Math.random()*Math.PI*2,sp=2+Math.random()*6;
+      parts.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,
+        c:Math.random()<.6?c:cols[Math.floor(Math.random()*cols.length)],r:1.5+Math.random()*2.2});
     }
-    g.appendChild(c);
-  });
-}
-function applyLang(){
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-t]").forEach(e => e.textContent = tr(e.dataset.t));
-  document.querySelectorAll("[data-tp]").forEach(e => e.placeholder = tr(e.dataset.tp));
-  $("#langBtn").textContent = tr("lang");
-  $("#modBtn").textContent = user ? tr("logout") : tr("login");
-  const opts = f.category.value;
-  f.category.innerHTML = "";
-  CATS.forEach(c => { const o = el("option","",tr(c)); o.value = c; f.category.appendChild(o); });
-  if (opts) f.category.value = opts;
-  renderChips(); render();
-}
-
-const logo = $("#logo");
-logo.append(NAME_MAIN, el("span","",NAME_END));
-document.title = NAME_MAIN + NAME_END;
-
-const dlg = $("#dlg"), f = $("#f");
-
-onSnapshot(query(collection(db,"listings"), orderBy("createdAt","desc"), limit(200)),
-  snap => { loadErr = false; items = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
-  err => { loadErr = true; render(); console.error(err); });
-
-onAuthStateChanged(auth, u => { user = u; $("#modBtn").textContent = user ? tr("logout") : tr("login"); render(); });
-$("#modBtn").onclick = async () => {
-  try { user ? await signOut(auth) : await signInWithPopup(auth, new GoogleAuthProvider()); }
-  catch (err) { console.error(err); alert(err.code || err.message); }
-};
-$("#langBtn").onclick = () => {
-  lang = lang === "en" ? "ka" : "en";
-  try { localStorage.setItem("lang", lang); } catch (e) {}
-  applyLang();
-};
-$("#q").oninput = e => { term = e.target.value; render(); };
-$("#addBtn").onclick = () => { $("#msg").textContent = ""; dlg.showModal(); };
-$("#cancel").onclick = () => dlg.close();
-f.onsubmit = async e => {
-  e.preventDefault();
-  const d = Object.fromEntries(new FormData(f));
-  Object.keys(d).forEach(k => d[k] = String(d[k]).trim());
-  try {
-    await addDoc(collection(db,"listings"), { ...d, createdAt: serverTimestamp() });
-    f.reset(); dlg.close();
-  } catch (err) {
-    $("#msg").textContent = tr("fail");
-    console.error(err);
+    if(!running){running=true;requestAnimationFrame(tick)}
   }
-};
-applyLang();
-</script>
-</body>
-</html>
-;--brick:#c4472b;--line:#e3dcc8;--card:#fffdf7}
-*{box-sizing:border-box}
-body{margin:0;background:var(--chalk);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif}
-header{background:repeating-linear-gradient(90deg,var(--teal) 0 28px,var(--chalk) 28px 56px);padding:0 0 18px}
-.bar{background:var(--ink);color:var(--chalk);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.bar <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diasgifts.ge</title>
-<style>
-:root{--ink:#1d2a2e;--chalk:#faf6ec;--saffron:#f2a61b;--teal:#0f6b68;--brick:#c4472b;--line:#e3dcc8;--card:#fffdf7}
-*{box-sizing:border-box}
-body{margin:0;background:var(--chalk);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Georgian",sans-serif}
-header{background:repeating-linear-gradient(90deg,var(--teal) 0 28px,var(--chalk) 28px 56px);padding:0 0 18px}
-.bar{background:var(--ink);color:var(--chalk);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.bar{flex-wrap:wrap}
-.bar h1{margin:0;font-size:1.35rem;letter-spacing:.5px}
-.bar h1 span{color:var(--saffron)}
-.bar .r{display:flex;gap:8px;align-items:center}
-.bar .r button{padding:8px 12px;font-size:.92rem;white-space:nowrap}
-button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--saffron);color:var(--ink);font-weight:700}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-main{max-width:900px;margin:0 auto;padding:16px}
-.search{display:flex;gap:8px;margin-top:-4px}
-input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
-.chip{white-space:nowrap;background:#fff;border:1.5px solid var(--line);font-weight:600}
-.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
-.item h3{margin:0;font-size:1.1rem}
-.price{color:var(--brick);font-weight:800;font-size:1.15rem}
-.meta{color:#5d6a6c;font-size:.88rem}
-.acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
-.acts a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-weight:700;color:#fff;background:var(--teal)}
-.acts a.wa{background:#1e8e4f}
-.del{background:var(--brick);color:#fff;margin-top:6px}
-.empty{text-align:center;padding:40px 10px;color:#5d6a6c}
-footer{text-align:center;padding:24px 16px 40px}
-dialog{border:0;border-radius:16px;padding:18px;width:min(460px,92vw);background:var(--chalk);color:var(--ink)}
-dialog::backdrop{background:rgba(0,0,0,.5)}
-form{display:grid;gap:10px}
-label{font-weight:600;font-size:.92rem;display:grid;gap:4px}
-.row{display:flex;gap:8px;justify-content:flex-end}
-.ghost{background:transparent;border:1.5px solid var(--line);color:inherit}
-.bar .ghost{border-color:#4a5b60}
-#msg{color:var(--brick);font-size:.9rem;min-height:1.2em}
-</style>
-</head>
-<body>
-<header>
-  <div class="bar">
-    <h1 id="logo"></h1>
-    <div class="r"><button class="ghost" id="langBtn" type="button"></button><button id="addBtn" data-t="sell"></button></div>
-  </div>
-</header>
-<main>
-  <div class="search"><input id="q" type="search" data-tp="search" aria-label="Search"></div>
-  <div class="chips" id="chips"></div>
-  <div id="grid" aria-live="polite"></div>
-</main>
-<footer><button class="ghost" id="modBtn" type="button"></button></footer>
-
-<dialog id="dlg">
-  <form id="f">
-    <h2 style="margin:0" data-t="add"></h2>
-    <label><span data-t="what"></span><input name="title" required maxlength="80"></label>
-    <label><span data-t="price"></span><input name="price" required maxlength="30"></label>
-    <label><span data-t="cat"></span><select name="category" required></select></label>
-    <label><span data-t="city"></span><input name="city" maxlength="60"></label>
-    <label><span data-t="phone"></span><input name="phone" required inputmode="tel" maxlength="20" placeholder="+995..."></label>
-    <label><span data-t="desc"></span><textarea name="desc" rows="3" maxlength="400"></textarea></label>
-    <div id="msg"></div>
-    <div class="row"><button type="button" class="ghost" id="cancel" data-t="cancel"></button><button type="submit" data-t="publish"></button></div>
-  </form>
-</dialog>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const NAME_MAIN = "Diasgifts", NAME_END = ".ge";   // change these two to rename the site
-
-const app = initializeApp({
-  apiKey: "AIzaSyDbgTHe5GN_i-8z_Wr8l4jakvm5JGsH0Bk",
-  authDomain: "bazzarge.firebaseapp.com",
-  projectId: "bazzarge",
-  storageBucket: "bazzarge.firebasestorage.app",
-  messagingSenderId: "503925712812",
-  appId: "1:503925712812:web:e8e87242b745082dc8bc09"
-});
-const db = getFirestore(app), auth = getAuth(app);
-
-const T = {
-  en:{sell:"+ Sell something",search:"Search items, shops, places",add:"Add a listing",what:"What are you selling?",price:"Price",cat:"Category",city:"City or market",phone:"Phone (with country code)",desc:"Details",cancel:"Cancel",publish:"Publish",call:"Call",empty:"Nothing here yet. Be the first to sell something.",fail:"Could not publish. Please try again.",load:"Could not load listings. Check your connection.",del:"Delete",confirm:"Delete this listing?",noperm:"Only the moderator can delete listings.",login:"Moderator login",logout:"Log out",lang:"ქართული",
-    All:"All",Food:"Food",Clothes:"Clothes",Electronics:"Electronics",Home:"Home",Vehicles:"Vehicles",Services:"Services",Other:"Other"},
-  ka:{sell:"+ გაყიდვა",search:"ძებნა: ნივთები, მაღაზიები, ადგილები",add:"განცხადების დამატება",what:"რას ყიდით?",price:"ფასი",cat:"კატეგორია",city:"ქალაქი ან ბაზარი",phone:"ტელეფონი (ქვეყნის კოდით)",desc:"დეტალები",cancel:"გაუქმება",publish:"გამოქვეყნება",call:"დარეკვა",empty:"ჯერ არაფერია. იყავით პირველი გამყიდველი.",fail:"გამოქვეყნება ვერ მოხერხდა. სცადეთ თავიდან.",load:"განცხადებები ვერ ჩაიტვირთა. შეამოწმეთ ინტერნეტი.",del:"წაშლა",confirm:"წაშალოთ ეს განცხადება?",noperm:"განცხადების წაშლა მხოლოდ მოდერატორს შეუძლია.",login:"მოდერატორის შესვლა",logout:"გასვლა",lang:"English",
-    All:"ყველა",Food:"საკვები",Clothes:"ტანსაცმელი",Electronics:"ელექტრონიკა",Home:"სახლი",Vehicles:"ავტომობილები",Services:"მომსახურება",Other:"სხვა"}
-};
-const CATS = ["Food","Clothes","Electronics","Home","Vehicles","Services","Other"];
-let items = [], cat = "All", term = "", user = null, loadErr = false;
-let lang = "en";
-try { lang = localStorage.getItem("lang") === "ka" ? "ka" : "en"; } catch (e) {}
-const $ = s => document.querySelector(s);
-const tr = k => T[lang][k];
-
-function el(tag, cls, text){
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
-function renderChips(){
-  const box = $("#chips"); box.textContent = "";
-  ["All", ...CATS].forEach(c => {
-    const b = el("button", "chip" + (c === cat ? " on" : ""), tr(c));
-    b.onclick = () => { cat = c; renderChips(); render(); };
-    box.appendChild(b);
-  });
-}
-function render(){
-  const g = $("#grid"); g.textContent = "";
-  if (loadErr){ g.appendChild(el("div","empty",tr("load"))); return; }
-  const t = term.toLowerCase();
-  const list = items.filter(i =>
-    (cat === "All" || i.category === cat) &&
-    (!t || [i.title, i.desc, i.city].join(" ").toLowerCase().includes(t)));
-  if (!list.length){ g.appendChild(el("div","empty",tr("empty"))); return; }
-  list.forEach(i => {
-    const c = el("article","item");
-    c.appendChild(el("h3","",i.title));
-    c.appendChild(el("div","price",i.price));
-    c.appendChild(el("div","meta",[tr(i.category) || i.category, i.city].filter(Boolean).join(" • ")));
-    if (i.desc) c.appendChild(el("div","",i.desc));
-    const digits = (i.phone || "").replace(/\D/g,"");
-    const acts = el("div","acts");
-    const call = el("a","",tr("call")); call.href = "tel:+" + digits;
-    const wa = el("a","wa","WhatsApp"); wa.href = "https://wa.me/" + digits; wa.target = "_blank"; wa.rel = "noopener";
-    acts.append(call, wa); c.appendChild(acts);
-    if (user){
-      const d = el("button","del",tr("del"));
-      d.onclick = async () => {
-        if (!confirm(tr("confirm"))) return;
-        try { await deleteDoc(doc(db,"listings",i.id)); }
-        catch (err) { alert(tr("noperm")); console.error(err); }
-      };
-      c.appendChild(d);
+  function tick(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(var i=parts.length-1;i>=0;i--){
+      var p=parts[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.vx*=.985;p.life-=.012;
+      if(p.life<=0){parts.splice(i,1);continue}
+      ctx.globalAlpha=Math.max(p.life,0);ctx.fillStyle=p.c;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill();
     }
-    g.appendChild(c);
-  });
-}
-function applyLang(){
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-t]").forEach(e => e.textContent = tr(e.dataset.t));
-  document.querySelectorAll("[data-tp]").forEach(e => e.placeholder = tr(e.dataset.tp));
-  $("#langBtn").textContent = tr("lang");
-  $("#modBtn").textContent = user ? tr("logout") : tr("login");
-  const opts = f.category.value;
-  f.category.innerHTML = "";
-  CATS.forEach(c => { const o = el("option","",tr(c)); o.value = c; f.category.appendChild(o); });
-  if (opts) f.category.value = opts;
-  renderChips(); render();
-}
-
-const logo = $("#logo");
-logo.append(NAME_MAIN, el("span","",NAME_END));
-document.title = NAME_MAIN + NAME_END;
-
-const dlg = $("#dlg"), f = $("#f");
-
-onSnapshot(query(collection(db,"listings"), orderBy("createdAt","desc"), limit(200)),
-  snap => { loadErr = false; items = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
-  err => { loadErr = true; render(); console.error(err); });
-
-onAuthStateChanged(auth, u => { user = u; $("#modBtn").textContent = user ? tr("logout") : tr("login"); render(); });
-$("#modBtn").onclick = async () => {
-  try { user ? await signOut(auth) : await signInWithPopup(auth, new GoogleAuthProvider()); }
-  catch (err) { console.error(err); alert(err.code || err.message); }
-};
-$("#langBtn").onclick = () => {
-  lang = lang === "en" ? "ka" : "en";
-  try { localStorage.setItem("lang", lang); } catch (e) {}
-  applyLang();
-};
-$("#q").oninput = e => { term = e.target.value; render(); };
-$("#addBtn").onclick = () => { $("#msg").textContent = ""; dlg.showModal(); };
-$("#cancel").onclick = () => dlg.close();
-f.onsubmit = async e => {
-  e.preventDefault();
-  const d = Object.fromEntries(new FormData(f));
-  Object.keys(d).forEach(k => d[k] = String(d[k]).trim());
-  try {
-    await addDoc(collection(db,"listings"), { ...d, createdAt: serverTimestamp() });
-    f.reset(); dlg.close();
-  } catch (err) {
-    $("#msg").textContent = tr("fail");
-    console.error(err);
+    ctx.globalAlpha=1;
+    if(parts.length||loop){requestAnimationFrame(tick)}else{running=false}
   }
-};
-applyLang();
-</script>
-</body>
-</html>
-}
-.bar h1 span{color:var(--saffron)}
-.bar .r{display:flex;gap:8px;align-items:center}
-button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--saffron);color:var(--ink);font-weight:700}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-main{max-width:900px;margin:0 auto;padding:16px}
-.search{display:flex;gap:8px;margin-top:-4px}
-input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
-.chip{white-space:nowrap;background:#fff;border:1.5px solid var(--line);font-weight:600}
-.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
-.item h3{margin:0;font-size:1.1rem}
-.price{color:var(--brick);font-weight:800;font-size:1.15rem}
-.meta{color:#5d6a6c;font-size:.88rem}
-.acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
-.acts a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-weight:700;color:#fff;background:var(--teal)}
-.acts a.wa{background:#1e8e4f}
-.del{background:var(--brick);color:#fff;margin-top:6px}
-.empty{text-align:center;padding:40px 10px;color:#5d6a6c}
-footer{text-align:center;padding:24px 16px 40px}
-dialog{border:0;border-radius:16px;padding:18px;width:min(460px,92vw);background:var(--chalk);color:var(--ink)}
-dialog::backdrop{background:rgba(0,0,0,.5)}
-form{display:grid;gap:10px}
-label{font-weight:600;font-size:.92rem;display:grid;gap:4px}
-.row{display:flex;gap:8px;justify-content:flex-end}
-.ghost{background:transparent;border:1.5px solid var(--line);color:inherit}
-.bar .ghost{border-color:#4a5b60}
-#msg{color:var(--brick);font-size:.9rem;min-height:1.2em}
-</style>
-</head>
-<body>
-<header>
-  <div class="bar">
-    <h1 id="logo"></h1>
-    <div class="r"><button class="ghost" id="langBtn" type="button"></button><button id="addBtn" data-t="sell"></button></div>
-  </div>
-</header>
-<main>
-  <div class="search"><input id="q" type="search" data-tp="search" aria-label="Search"></div>
-  <div class="chips" id="chips"></div>
-  <div id="grid" aria-live="polite"></div>
-</main>
-<footer><button class="ghost" id="modBtn" type="button"></button></footer>
-
-<dialog id="dlg">
-  <form id="f">
-    <h2 style="margin:0" data-t="add"></h2>
-    <label><span data-t="what"></span><input name="title" required maxlength="80"></label>
-    <label><span data-t="price"></span><input name="price" required maxlength="30"></label>
-    <label><span data-t="cat"></span><select name="category" required></select></label>
-    <label><span data-t="city"></span><input name="city" maxlength="60"></label>
-    <label><span data-t="phone"></span><input name="phone" required inputmode="tel" maxlength="20" placeholder="+995..."></label>
-    <label><span data-t="desc"></span><textarea name="desc" rows="3" maxlength="400"></textarea></label>
-    <div id="msg"></div>
-    <div class="row"><button type="button" class="ghost" id="cancel" data-t="cancel"></button><button type="submit" data-t="publish"></button></div>
-  </form>
-</dialog>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const NAME_MAIN = "Diasgifts", NAME_END = ".ge";   // change these two to rename the site
-
-const app = initializeApp({
-  apiKey: "AIzaSyDbgTHe5GN_i-8z_Wr8l4jakvm5JGsH0Bk",
-  authDomain: "bazzarge.firebaseapp.com",
-  projectId: "bazzarge",
-  storageBucket: "bazzarge.firebasestorage.app",
-  messagingSenderId: "503925712812",
-  appId: "1:503925712812:web:e8e87242b745082dc8bc09"
-});
-const db = getFirestore(app), auth = getAuth(app);
-
-const T = {
-  en:{sell:"+ Sell something",search:"Search items, shops, places",add:"Add a listing",what:"What are you selling?",price:"Price",cat:"Category",city:"City or market",phone:"Phone (with country code)",desc:"Details",cancel:"Cancel",publish:"Publish",call:"Call",empty:"Nothing here yet. Be the first to sell something.",fail:"Could not publish. Please try again.",load:"Could not load listings. Check your connection.",del:"Delete",confirm:"Delete this listing?",noperm:"Only the moderator can delete listings.",login:"Moderator login",logout:"Log out",lang:"ქართული",
-    All:"All",Food:"Food",Clothes:"Clothes",Electronics:"Electronics",Home:"Home",Vehicles:"Vehicles",Services:"Services",Other:"Other"},
-  ka:{sell:"+ გაყიდვა",search:"ძებნა: ნივთები, მაღაზიები, ადგილები",add:"განცხადების დამატება",what:"რას ყიდით?",price:"ფასი",cat:"კატეგორია",city:"ქალაქი ან ბაზარი",phone:"ტელეფონი (ქვეყნის კოდით)",desc:"დეტალები",cancel:"გაუქმება",publish:"გამოქვეყნება",call:"დარეკვა",empty:"ჯერ არაფერია. იყავით პირველი გამყიდველი.",fail:"გამოქვეყნება ვერ მოხერხდა. სცადეთ თავიდან.",load:"განცხადებები ვერ ჩაიტვირთა. შეამოწმეთ ინტერნეტი.",del:"წაშლა",confirm:"წაშალოთ ეს განცხადება?",noperm:"განცხადების წაშლა მხოლოდ მოდერატორს შეუძლია.",login:"მოდერატორის შესვლა",logout:"გასვლა",lang:"English",
-    All:"ყველა",Food:"საკვები",Clothes:"ტანსაცმელი",Electronics:"ელექტრონიკა",Home:"სახლი",Vehicles:"ავტომობილები",Services:"მომსახურება",Other:"სხვა"}
-};
-const CATS = ["Food","Clothes","Electronics","Home","Vehicles","Services","Other"];
-let items = [], cat = "All", term = "", user = null, loadErr = false;
-let lang = "en";
-try { lang = localStorage.getItem("lang") === "ka" ? "ka" : "en"; } catch (e) {}
-const $ = s => document.querySelector(s);
-const tr = k => T[lang][k];
-
-function el(tag, cls, text){
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
-function renderChips(){
-  const box = $("#chips"); box.textContent = "";
-  ["All", ...CATS].forEach(c => {
-    const b = el("button", "chip" + (c === cat ? " on" : ""), tr(c));
-    b.onclick = () => { cat = c; renderChips(); render(); };
-    box.appendChild(b);
-  });
-}
-function render(){
-  const g = $("#grid"); g.textContent = "";
-  if (loadErr){ g.appendChild(el("div","empty",tr("load"))); return; }
-  const t = term.toLowerCase();
-  const list = items.filter(i =>
-    (cat === "All" || i.category === cat) &&
-    (!t || [i.title, i.desc, i.city].join(" ").toLowerCase().includes(t)));
-  if (!list.length){ g.appendChild(el("div","empty",tr("empty"))); return; }
-  list.forEach(i => {
-    const c = el("article","item");
-    c.appendChild(el("h3","",i.title));
-    c.appendChild(el("div","price",i.price));
-    c.appendChild(el("div","meta",[tr(i.category) || i.category, i.city].filter(Boolean).join(" • ")));
-    if (i.desc) c.appendChild(el("div","",i.desc));
-    const digits = (i.phone || "").replace(/\D/g,"");
-    const acts = el("div","acts");
-    const call = el("a","",tr("call")); call.href = "tel:+" + digits;
-    const wa = el("a","wa","WhatsApp"); wa.href = "https://wa.me/" + digits; wa.target = "_blank"; wa.rel = "noopener";
-    acts.append(call, wa); c.appendChild(acts);
-    if (user){
-      const d = el("button","del",tr("del"));
-      d.onclick = async () => {
-        if (!confirm(tr("confirm"))) return;
-        try { await deleteDoc(doc(db,"listings",i.id)); }
-        catch (err) { alert(tr("noperm")); console.error(err); }
-      };
-      c.appendChild(d);
-    }
-    g.appendChild(c);
-  });
-}
-function applyLang(){
-  document.documentElement.lang = lang;
-  document.querySelectorAll("[data-t]").forEach(e => e.textContent = tr(e.dataset.t));
-  document.querySelectorAll("[data-tp]").forEach(e => e.placeholder = tr(e.dataset.tp));
-  $("#langBtn").textContent = tr("lang");
-  $("#modBtn").textContent = user ? tr("logout") : tr("login");
-  const opts = f.category.value;
-  f.category.innerHTML = "";
-  CATS.forEach(c => { const o = el("option","",tr(c)); o.value = c; f.category.appendChild(o); });
-  if (opts) f.category.value = opts;
-  renderChips(); render();
-}
-
-const logo = $("#logo");
-logo.append(NAME_MAIN, el("span","",NAME_END));
-document.title = NAME_MAIN + NAME_END;
-
-const dlg = $("#dlg"), f = $("#f");
-
-onSnapshot(query(collection(db,"listings"), orderBy("createdAt","desc"), limit(200)),
-  snap => { loadErr = false; items = snap.docs.map(d => ({ id: d.id, ...d.data() })); render(); },
-  err => { loadErr = true; render(); console.error(err); });
-
-onAuthStateChanged(auth, u => { user = u; $("#modBtn").textContent = user ? tr("logout") : tr("login"); render(); });
-$("#modBtn").onclick = async () => {
-  try { user ? await signOut(auth) : await signInWithPopup(auth, new GoogleAuthProvider()); }
-  catch (err) { console.error(err); alert(err.code || err.message); }
-};
-$("#langBtn").onclick = () => {
-  lang = lang === "en" ? "ka" : "en";
-  try { localStorage.setItem("lang", lang); } catch (e) {}
-  applyLang();
-};
-$("#q").oninput = e => { term = e.target.value; render(); };
-$("#addBtn").onclick = () => { $("#msg").textContent = ""; dlg.showModal(); };
-$("#cancel").onclick = () => dlg.close();
-f.onsubmit = async e => {
-  e.preventDefault();
-  const d = Object.fromEntries(new FormData(f));
-  Object.keys(d).forEach(k => d[k] = String(d[k]).trim());
-  try {
-    await addDoc(collection(db,"listings"), { ...d, createdAt: serverTimestamp() });
-    f.reset(); dlg.close();
-  } catch (err) {
-    $("#msg").textContent = tr("fail");
-    console.error(err);
+  function explode(){
+    var r=heart.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    heart.classList.add('pop');
+    heart.style.transition='transform .25s ease-in,opacity .25s';
+    heart.style.setProperty('--s',3.6);heart.style.opacity='0';
+    btns.classList.add('hide');q.classList.add('hide');
+    boom();crackle();
+    burst(cx,cy,140);
+    setTimeout(function(){burst(cx-80,cy-40,90);burst(cx+80,cy-30,90)},250);
+    setTimeout(function(){fin.classList.add('show')},300);
+    loop=true;
+    var t=setInterval(function(){
+      crackle();
+      burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.5),80);
+    },900);
+    setTimeout(function(){loop=false;clearInterval(t)},12000);
   }
-};
-applyLang();
+  yes.addEventListener('click',function(){
+    clicks++;
+    if(clicks>=5){explode();return}
+    heart.style.setProperty('--s',scales[clicks]);
+    pop(clicks);
+    var r=heart.getBoundingClientRect();
+    burst(r.left+r.width/2,r.top+r.height/2,14);
+  });
+})();
 </script>
 </body>
 </html>
