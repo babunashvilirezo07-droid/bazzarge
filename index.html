@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bazzar.ge</title>
+<style>
+:root{--ink:#1d2a2e;--chalk:#faf6ec;--saffron:#f2a61b;--teal:#0f6b68;--brick:#c4472b;--line:#e3dcc8;--card:#fffdf7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--chalk);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:repeating-linear-gradient(90deg,var(--teal) 0 28px,var(--chalk) 28px 56px);padding:0 0 18px}
+.bar{background:var(--ink);color:var(--chalk);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bar h1{margin:0;font-size:1.5rem;letter-spacing:.5px}
+.bar h1 span{color:var(--saffron)}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--saffron);color:var(--ink);font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+main{max-width:900px;margin:0 auto;padding:16px}
+.search{display:flex;gap:8px;margin-top:-4px}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
+.chip{white-space:nowrap;background:#fff;border:1.5px solid var(--line);font-weight:600}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.item{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.item h3{margin:0;font-size:1.1rem}
+.price{color:var(--brick);font-weight:800;font-size:1.15rem}
+.meta{color:#5d6a6c;font-size:.88rem}
+.acts{display:flex;gap:8px;margin-top:auto;padding-top:8px}
+.acts a{flex:1;text-align:center;text-decoration:none;padding:9px;border-radius:10px;font-weight:700;color:#fff;background:var(--teal)}
+.acts a.wa{background:#1e8e4f}
+.empty{text-align:center;padding:40px 10px;color:#5d6a6c}
+dialog{border:0;border-radius:16px;padding:18px;width:min(460px,92vw);background:var(--chalk);color:var(--ink)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+form{display:grid;gap:10px}
+label{font-weight:600;font-size:.92rem;display:grid;gap:4px}
+.row{display:flex;gap:8px;justify-content:flex-end}
+.ghost{background:transparent;border:1.5px solid var(--line)}
+#msg{color:var(--brick);font-size:.9rem;min-height:1.2em}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar"><h1>Bazzar<span>.ge</span></h1><button id="addBtn">+ Sell something</button></div>
+</header>
+<main>
+  <div class="search"><input id="q" type="search" placeholder="Search items, shops, places" aria-label="Search"></div>
+  <div class="chips" id="chips"></div>
+  <div id="grid" aria-live="polite"></div>
+</main>
+
+<dialog id="dlg">
+  <form id="f">
+    <h2 style="margin:0">Add a listing</h2>
+    <label>What are you selling?<input name="title" required maxlength="80"></label>
+    <label>Price<input name="price" required maxlength="30" placeholder="e.g. 25"></label>
+    <label>Category<select name="category" required></select></label>
+    <label>City or market<input name="city" maxlength="60"></label>
+    <label>Phone (with country code)<input name="phone" required inputmode="tel" maxlength="20" placeholder="+995..."></label>
+    <label>Details<textarea name="desc" rows="3" maxlength="400"></textarea></label>
+    <div id="msg"></div>
+    <div class="row"><button type="button" class="ghost" id="cancel">Cancel</button><button type="submit">Publish</button></div>
+  </form>
+</dialog>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyDbgTHe5GN_i-8z_Wr8l4jakvm5JGsH0Bk",
+  authDomain: "bazzarge.firebaseapp.com",
+  projectId: "bazzarge",
+  storageBucket: "bazzarge.firebasestorage.app",
+  messagingSenderId: "503925712812",
+  appId: "1:503925712812:web:e8e87242b745082dc8bc09"
+});
+const db = getFirestore(app);
+
+const CATS = ["Food","Clothes","Electronics","Home","Vehicles","Services","Other"];
+let items = [], cat = "All", term = "";
+const $ = s => document.querySelector(s);
+
+function renderChips(){
+  const box = $("#chips"); box.textContent = "";
+  ["All", ...CATS].forEach(c => {
+    const b = document.createElement("button");
+    b.className = "chip" + (c === cat ? " on" : "");
+    b.textContent = c;
+    b.onclick = () => { cat = c; renderChips(); render(); };
+    box.appendChild(b);
+  });
+}
+function el(tag, cls, text){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function render(){
+  const g = $("#grid"); g.textContent = "";
+  const t = term.toLowerCase();
+  const list = items.filter(i =>
+    (cat === "All" || i.category === cat) &&
+    (!t || [i.title, i.desc, i.city].join(" ").toLowerCase().includes(t)));
+  if (!list.length){
+    g.appendChild(el("div","empty","Nothing here yet. Be the first to sell something."));
+    return;
+  }
+  list.forEach(i => {
+    const c = el("article","item");
+    c.appendChild(el("h3","",i.title));
+    c.appendChild(el("div","price",i.price));
+    c.appendChild(el("div","meta",[i.category, i.city].filter(Boolean).join(" • ")));
+    if (i.desc) c.appendChild(el("div","",i.desc));
+    const digits = (i.phone || "").replace(/\D/g,"");
+    const acts = el("div","acts");
+    const call = el("a","","Call"); call.href = "tel:+" + digits;
+    const wa = el("a","wa","WhatsApp"); wa.href = "https://wa.me/" + digits; wa.target = "_blank"; wa.rel = "noopener";
+    acts.append(call, wa); c.appendChild(acts);
+    g.appendChild(c);
+  });
+}
+
+onSnapshot(query(collection(db,"listings"), orderBy("createdAt","desc"), limit(200)),
+  snap => { items = snap.docs.map(d => d.data()); render(); },
+  err => { $("#grid").textContent = ""; $("#grid").appendChild(el("div","empty","Could not load listings. Check your Firestore rules and connection.")); console.error(err); });
+
+$("#q").oninput = e => { term = e.target.value; render(); };
+const dlg = $("#dlg"), f = $("#f");
+f.category.innerHTML = CATS.map(c => `<option>${c}</option>`).join("");
+$("#addBtn").onclick = () => { $("#msg").textContent = ""; dlg.showModal(); };
+$("#cancel").onclick = () => dlg.close();
+f.onsubmit = async e => {
+  e.preventDefault();
+  const d = Object.fromEntries(new FormData(f));
+  Object.keys(d).forEach(k => d[k] = String(d[k]).trim());
+  try {
+    await addDoc(collection(db,"listings"), { ...d, createdAt: serverTimestamp() });
+    f.reset(); dlg.close();
+  } catch (err) {
+    $("#msg").textContent = "Could not publish. Please try again.";
+    console.error(err);
+  }
+};
+renderChips();
+</script>
+</body>
+</html>
